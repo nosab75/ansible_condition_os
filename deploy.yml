@@ -1,0 +1,20 @@
+---
+- name: Installation du serveur web en fonction de l'os
+  hosts: all
+  become: true
+  vars_files:
+   - files/secrets/credentials.yml
+  tasks:
+          # (Task-1) Checks if ansible_os_family == "RedHat" and then Installs Apache on Remote Node
+   - name: Install Apache on CentOS Server
+     yum: 
+       name: httpd 
+       state: present
+     when: ansible_os_family == "RedHat"
+
+# (Task-2) Checks if ansible_os_family == "Debian" and then Installs Apache on Remote Node
+   - name: Install Apache on Ubuntu Server
+     apt: 
+       name: apache2 
+       state: present
+     when: ansible_os_family == "Debian"
